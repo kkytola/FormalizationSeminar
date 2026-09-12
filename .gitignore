@@ -1,0 +1,7 @@
+# Lake's build directory and the packages it clones. Large, entirely derived
+# from `lake-manifest.json` and `lean-toolchain`, and rebuilt by `lake build`.
+/.lake
+
+# The generated site. Rebuilt by `lake exe generate-site`; GitHub Pages serves
+# the copy that the workflow builds, not one committed here.
+/_site

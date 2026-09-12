@@ -1,0 +1,37 @@
+name = "seminar-webpage"
+version = "0.1.0"
+
+# `lake build` builds the library (which type-checks the talk database and every
+# page), and the `generate-site` executable that turns it into HTML.
+defaultTargets = ["SeminarSite", "generate-site"]
+
+# Verso is pinned to a tag rather than to `main`, so that `lake update` cannot
+# silently move the site onto a different Verso. The tag must agree with
+# `lean-toolchain`: Verso's own `lean-toolchain` at tag `v4.34.0-rc2` is
+# `leanprover/lean4:v4.34.0-rc2`. When bumping, change both together.
+#
+# Mathlib is deliberately *not* a dependency. Nothing on this site needs it, and
+# adding it turns a CI run of a few minutes into a much longer one. If you later want
+# Lean code in abstracts to be checked against Mathlib, add a `[[require]]` for it
+# here (after this one) and add a `lake exe cache get` step to the workflows.
+[[require]]
+name = "verso"
+git = "https://github.com/leanprover/verso.git"
+rev = "v4.34.0-rc2"
+
+# The whole site: talk database, rendering, and page sources. Only the root
+# module `SeminarSite.lean` is named as a target, so it must import everything
+# that should be built -- a page that nothing imports is a page that never gets
+# type-checked.
+[[lean_lib]]
+name = "SeminarSite"
+
+# The site generator. Running it writes the HTML tree to `_site/`.
+#
+# No `supportInterpreter`: the directive and component lookups that do need the
+# interpreter happen while the library elaborates, not while this executable
+# runs. `Main.lean` bakes the component table in at compile time via Verso's
+# `%registered_components`.
+[[lean_exe]]
+name = "generate-site"
+root = "Main"

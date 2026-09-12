@@ -1,0 +1,129 @@
+# Build the site and publish it to GitHub Pages.
+#
+# One workflow with two jobs. `build` runs for every trigger, including pull
+# requests, so a broken page is caught before it is merged. `deploy` runs only
+# when the result is meant to go live, and is the only job granted permission to
+# publish.
+#
+# WHY THERE IS A SCHEDULE. The split between "upcoming" and "past" talks is
+# computed from the clock while the HTML is generated, not while Lean compiles
+# (see the comment at the top of `SeminarSite/Render.lean`). So re-running this
+# workflow with no source change is enough to retire a talk whose date has
+# passed — and the nightly `schedule:` below is what does that. Without it, a
+# talk would sit under "Upcoming" until the next push.
+#
+# Two things to know about `schedule:` on GitHub:
+#   * It only ever runs on the repository's default branch, whatever `branches:`
+#     says for `push`.
+#   * GitHub disables scheduled workflows in a repository that has seen no
+#     commits for 60 days, and emails an admin about it. A seminar page is
+#     edited most weeks in term, but over a long summer this can trigger; the
+#     fix is to re-enable it from the Actions tab.
+#
+# FIRST-TIME SETUP. In the repository's Settings → Pages, set "Source" to
+# "GitHub Actions". Nothing else is needed: no gh-pages branch, no secrets, and
+# no `configure-pages` step (the site uses only relative URLs, so it does not
+# need to be told its own base path — see the comment on `theme` in `Main.lean`).
+
+name: Pages
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+    # Retires talks whose date has passed. 04:10 UTC is chosen to be outside
+    # the top of the hour, when GitHub's scheduler is most congested and
+    # delays are longest.
+    schedule:
+        - cron: "10 4 * * *"
+    # Adds a "Run workflow" button, for publishing a change to the talk data
+    # immediately rather than waiting for the schedule.
+    workflow_dispatch:
+
+# Least privilege by default; the `deploy` job widens this for itself.
+permissions:
+    contents: read
+
+# Publishing is not something to do twice at once, and an interrupted
+# deployment can leave the site half-updated — so a run that arrives during a
+# deployment waits rather than cancelling it. Pull-request builds are keyed
+# separately and *do* cancel, since only the newest commit of a branch matters.
+concurrency:
+    group: pages-${{ github.event_name == 'pull_request' && github.ref || 'live' }}
+    cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+    build:
+        name: Build the site
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v7
+
+            # Installs the toolchain named in `lean-toolchain`, restores and
+            # saves a cache of `.lake`, and runs `lake build`.
+            #
+            # The cache is what makes the nightly run cheap: its key ends in the
+            # commit sha, with a fallback to the newest entry for the same
+            # toolchain and `lake-manifest.json`, so a scheduled run on an
+            # unchanged tree gets an exact hit and `lake build` has nothing to
+            # do. Without it, every run would compile Verso and SubVerso from
+            # source. `.lake` is about 1 GB here, well inside the 10 GB
+            # per-repository cache limit; a Mathlib dependency would change that
+            # calculation, which is one reason this project has none.
+            #
+            # `lake build` alone is not a sufficient check: it compiles the talk
+            # database and the page sources, but cross-page links and the talk
+            # lists themselves are only resolved by `generate-site` below.
+            - uses: leanprover/lean-action@v1
+              with:
+                  build: true
+                  test: false
+                  lint: false
+
+            # Writes `_site/`. Exits non-zero if anything went wrong while
+            # rendering — a `{page_link}` to a page that is not in the site, a
+            # component with no implementation — so a link that rots is a failed
+            # build rather than a page that quietly says "Can't find target".
+            - name: Generate the HTML
+              run: lake exe generate-site
+
+            # A guard against the one failure the exit code above would not
+            # catch: a generator that succeeds but produces nothing, which would
+            # otherwise be published as an empty site.
+            - name: Check the output looks like a site
+              run: |
+                  test -s _site/index.html
+                  test -s _site/past-talks/index.html
+                  test -s _site/static/style.css
+                  echo "Generated $(find _site -type f | wc -l) files."
+
+            # `upload-pages-artifact` produces the particular tar layout that
+            # `deploy-pages` expects, so it is not interchangeable with
+            # `upload-artifact`.
+            - name: Upload the Pages artifact
+              uses: actions/upload-pages-artifact@v5
+              with:
+                  path: _site
+
+    deploy:
+        name: Deploy to GitHub Pages
+        needs: build
+        # A pull request should be built but not published — least of all one
+        # from a fork. Everything else that reaches this workflow (a push to
+        # main, the nightly schedule, a manual run) is meant to go live.
+        if: github.event_name != 'pull_request'
+        runs-on: ubuntu-latest
+        permissions:
+            # To publish the artifact.
+            pages: write
+            # `deploy-pages` authenticates to the Pages API with a short-lived
+            # OIDC token rather than a stored secret, which is what this allows
+            # it to mint.
+            id-token: write
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        steps:
+            - name: Deploy
+              id: deployment
+              uses: actions/deploy-pages@v5

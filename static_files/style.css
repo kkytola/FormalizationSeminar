@@ -1,0 +1,481 @@
+/*
+ * The whole site's appearance.
+ *
+ * This file is copied verbatim into `_site/static/`, so editing it and re-running
+ * `lake exe generate-site` is enough -- no Lean rebuild.
+ *
+ * Verso's own `verso-vars.css` is loaded before this file and defines the `--verso-*`
+ * variables (text colour, code font, tooltip colours). Those defaults assume a light
+ * page, so the dark-mode block below restates the ones that would otherwise stay black
+ * on black.
+ */
+
+/* ---------------------------------------------------------------- tokens -- */
+
+:root {
+    --measure: 42rem; /* comfortable line length for prose */
+    --page-width: 54rem; /* wider, because the talk list has two columns */
+    --gutter: 1.25rem;
+
+    --fg: #1a1a1a;
+    --fg-muted: #5c5c5c;
+    --fg-faint: #7a7a7a;
+    --bg: #fdfdfc;
+    --bg-sunken: #f3f2ef;
+    --rule: #dcdad4;
+    --accent: #14507a;
+    --accent-hover: #1d6ca6;
+
+    --font-text:
+        "Charter", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --font-ui: "Helvetica Neue", "Segoe UI", Roboto, Arial, sans-serif;
+
+    /*
+     * The site header is styled as a VS Code editor pane. These are the colours of
+     * the built-in "Light (Visual Studio)" theme, taken from `light_vs.json` in the
+     * VS Code repository (`extensions/theme-defaults/themes/`), with the dark values
+     * below from `dark_vs.json` — "Dark (Visual Studio)".
+     *
+     * The font stack is VS Code's own default `editor.fontFamily`, which is
+     * per-platform: Menlo/Monaco on macOS, Consolas on Windows, Droid Sans Mono on
+     * Linux. Listing all of them in that order means each platform reaches its own
+     * default first.
+     */
+    --vs-bg: #ffffff; /* editor.background */
+    --vs-fg: #000000; /* editor.foreground */
+    --vs-comment: #008000; /* comment */
+    --vs-keyword: #0000ff; /* keyword, storage, constant.language */
+    --vs-string: #a31515; /* string */
+    --vs-rule: #d3d3d3; /* editorIndentGuide.background1 */
+
+    --font-vs-code:
+        Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --fg: #e6e4df;
+        --fg-muted: #a9a59c;
+        --fg-faint: #8a867e;
+        --bg: #15171a;
+        --bg-sunken: #1e2126;
+        --rule: #33373d;
+        --accent: #7fb8e0;
+        --accent-hover: #a5cfef;
+
+        /* Verso's variables, restated for a dark page. */
+        --verso-text-color: var(--fg);
+        --verso-code-color: var(--fg);
+        --verso-structure-color: var(--fg);
+        --verso-tooltip-color: var(--fg);
+        --verso-tooltip-bg-color: #2a2e34;
+        --verso-tooltip-border-color: var(--rule);
+        --verso-tooltip-separator-color: var(--rule);
+        --verso-code-hover-bg-color: #262a30;
+
+        /* "Dark (Visual Studio)" — `dark_vs.json`. */
+        --vs-bg: #1e1e1e; /* editor.background */
+        --vs-fg: #d4d4d4; /* editor.foreground */
+        --vs-comment: #6a9955; /* comment */
+        --vs-keyword: #569cd6; /* keyword, storage, constant.language */
+        --vs-string: #ce9178; /* string */
+        --vs-rule: #404040; /* editorIndentGuide.background1 */
+    }
+}
+
+/* ------------------------------------------------------------- structure -- */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    /* Anchors from the table of contents land below the sticky nothing we have,
+       but headings still deserve breathing room when jumped to. */
+    scroll-padding-top: 1rem;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-text);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-text-size-adjust: 100%;
+}
+
+/* One shared page gutter, used by the header, main content and footer, so the three
+   line up with each other at every width. */
+.wrap {
+    width: 100%;
+    max-width: var(--page-width);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+}
+
+main.wrap {
+    padding-block: 2.5rem 4rem;
+}
+
+/* Prose is narrower than the page, but tables and talk lists may use the full width. */
+main p,
+main ul:not(.talk-list):not(.talk-links),
+main ol,
+main blockquote {
+    max-width: var(--measure);
+}
+
+/* ---------------------------------------------------------------- header -- */
+
+/*
+ * The header is dressed as a VS Code editor pane: the editor background and
+ * foreground, the default editor font, and syntax colours for the three kinds of
+ * text in it. The prose below the header keeps the site's own serif and palette —
+ * the contrast between "editor chrome" and "document" is the point.
+ *
+ * The mapping:
+ *   the seminar's name    keyword       (#0000ff / #569cd6)
+ *   the tagline           editor text   (#000000 / #d4d4d4)
+ *   the navigation        comment       (#008000 / #6a9955)
+ *
+ * Every value comes from `--vs-*` at the top of this file, so switching the header
+ * to another VS Code theme is a matter of changing those six colours.
+ */
+.site-header {
+    border-bottom: 1px solid var(--vs-rule);
+    background: var(--vs-bg);
+    color: var(--vs-fg);
+    font-family: var(--font-vs-code);
+    padding-block: 1.5rem 0;
+}
+
+.site-name {
+    display: inline-block;
+    font-family: inherit;
+    font-size: 1.25rem;
+    font-weight: 700;
+    /* Monospace is already wide; the extra tracking of the UI font would push a
+       long seminar name past the column. */
+    letter-spacing: 0;
+    color: var(--vs-keyword);
+    text-decoration: none;
+}
+
+.site-name:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+.site-tagline {
+    margin: 0.35rem 0 0;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--vs-fg);
+}
+
+/* Verso's `topNav` emits `<nav class="top"><ol><li><a>…`. */
+nav.top {
+    margin-top: 1.25rem;
+}
+
+nav.top ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav.top a {
+    display: inline-block;
+    padding-block: 0.5rem;
+    border-bottom: 2px solid transparent;
+    color: var(--vs-comment);
+    font-family: inherit;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+nav.top a:hover {
+    border-bottom-color: var(--vs-keyword);
+    color: var(--vs-keyword);
+}
+
+/* --------------------------------------------------------------- footer -- */
+
+.site-footer {
+    border-top: 1px solid var(--rule);
+    padding-block: 1.5rem 2.5rem;
+    color: var(--fg-muted);
+    font-family: var(--font-ui);
+    font-size: 0.9rem;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.25rem;
+    margin: 0 0 0.35rem;
+    max-width: none;
+}
+
+.footer-copyright {
+    margin: 0;
+    color: var(--fg-faint);
+    max-width: none;
+}
+
+/* ---------------------------------------------------------------- prose -- */
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: var(--font-ui);
+    line-height: 1.25;
+    color: var(--fg);
+}
+
+h1 {
+    margin: 0 0 1.25rem;
+    font-size: 2rem;
+    letter-spacing: -0.02em;
+}
+
+h2 {
+    margin: 2.75rem 0 1rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid var(--rule);
+    font-size: 1.35rem;
+}
+
+h3 {
+    margin: 2rem 0 0.75rem;
+    font-size: 1.1rem;
+}
+
+p {
+    margin: 0 0 1.1rem;
+}
+
+a {
+    color: var(--accent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.15em;
+}
+
+a:hover {
+    color: var(--accent-hover);
+}
+
+strong {
+    font-weight: 600;
+}
+
+code {
+    font-family: var(--verso-code-font-family, monospace);
+    font-size: 0.9em;
+    background: var(--bg-sunken);
+    padding: 0.1em 0.3em;
+    border-radius: 3px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* The opening paragraph of the front page carries the standing information -- when and
+   where the seminar meets -- so it is set slightly larger than the rest. */
+.front-page > p:first-of-type {
+    font-size: 1.15rem;
+    color: var(--fg);
+}
+
+/* ----------------------------------------------------------- talk lists -- */
+
+.talk-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.talk {
+    display: grid;
+    /* Date column wide enough for "Thu 1 September 2026" without wrapping. */
+    grid-template-columns: 11.5rem 1fr;
+    gap: 0 1.5rem;
+    padding-block: 1.25rem;
+    border-top: 1px solid var(--rule);
+}
+
+.talk:last-child {
+    border-bottom: 1px solid var(--rule);
+}
+
+/* An `h2` already draws a rule beneath itself. When a talk list follows one directly,
+   its own top rule would land a line below that one and read as a mistake. */
+h2 + .talk-list > .talk:first-child {
+    border-top: none;
+    padding-top: 0.75rem;
+}
+
+.talk-when {
+    font-family: var(--font-ui);
+    font-size: 0.9rem;
+    color: var(--fg-muted);
+    /* Optically align the date with the speaker line beside it. */
+    padding-top: 0.15rem;
+}
+
+.talk-speaker {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 1.02rem;
+}
+
+/* Bracketed after the name, and deliberately lighter than it: the name is what a reader
+   scans the list for, the affiliation is context. A link inside it inherits this colour
+   through the `.talk-speaker a` rule below. */
+.talk-affiliation {
+    font-weight: 400;
+    color: var(--fg-muted);
+}
+
+.talk-speaker a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+}
+
+.talk-speaker a:hover {
+    color: var(--accent-hover);
+    border-bottom-color: currentcolor;
+}
+
+.talk-title {
+    margin-top: 0.1rem;
+    font-style: italic;
+}
+
+/* Stands in for a speaker or a title that is not announced yet. Used inside both
+   `.talk-speaker` and `.talk-title`, so it has to undo the bold of the one and the
+   italic of the other. */
+.talk-tba {
+    font-weight: 400;
+    font-style: normal;
+    color: var(--fg-faint);
+    font-size: 0.95rem;
+}
+
+.talk-abstract {
+    margin-top: 0.6rem;
+    color: var(--fg-muted);
+    font-size: 0.98rem;
+}
+
+.talk-abstract p {
+    margin: 0 0 0.6rem;
+    max-width: var(--measure);
+}
+
+.talk-abstract p:last-child {
+    margin-bottom: 0;
+}
+
+/* In the archive the abstract is folded away, so a year of talks can be scanned. */
+details.talk-abstract > summary {
+    cursor: pointer;
+    width: fit-content;
+    font-family: var(--font-ui);
+    font-size: 0.88rem;
+    color: var(--accent);
+}
+
+details.talk-abstract > summary:hover {
+    color: var(--accent-hover);
+}
+
+details.talk-abstract[open] > summary {
+    margin-bottom: 0.5rem;
+}
+
+.talk-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1rem;
+    margin: 0.6rem 0 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-ui);
+    font-size: 0.88rem;
+}
+
+.talk-links a {
+    text-decoration: none;
+    border-bottom: 1px solid currentcolor;
+}
+
+/* A `misc` item with no URL is a note, not a link: say so by not looking like one. */
+.talk-link-plain {
+    color: var(--fg-faint);
+}
+
+.talk-list-empty {
+    color: var(--fg-muted);
+    font-style: italic;
+}
+
+/* ------------------------------------------------------------- narrow -- */
+
+@media (max-width: 34rem) {
+    body {
+        font-size: 1rem;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    /* The date stacks above the talk rather than squeezing into a column. */
+    .talk {
+        grid-template-columns: 1fr;
+        gap: 0.35rem;
+    }
+
+    .talk-when {
+        padding-top: 0;
+    }
+
+    /* A monospace line is about 20% wider than the same text in the UI font, so the
+       seminar's name is the first thing to overflow a phone-width header. */
+    .site-name {
+        font-size: 1.05rem;
+    }
+}
+
+/* --------------------------------------------------------------- print -- */
+
+@media print {
+    .site-header nav.top,
+    .site-footer {
+        display: none;
+    }
+
+    /* Paper has no disclosure triangles, so unfold every abstract. */
+    details.talk-abstract > summary {
+        display: none;
+    }
+
+    details.talk-abstract > *:not(summary) {
+        display: block !important;
+    }
+
+    .talk {
+        break-inside: avoid;
+    }
+}

@@ -1,0 +1,13 @@
+<!--
+  A lectern with a talk in progress. Drawn with `currentColor`-free explicit colours
+  because a favicon is rendered outside the page and inherits nothing from it.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img"
+     aria-label="Seminar">
+  <rect width="32" height="32" rx="6" fill="#14507a"/>
+  <!-- Lectern top -->
+  <path d="M7 11.5 L25 9 L25 12.5 L7 15 Z" fill="#fdfdfc"/>
+  <!-- Stand and base -->
+  <rect x="15" y="14" width="2.5" height="10" fill="#fdfdfc"/>
+  <rect x="10.5" y="24" width="11.5" height="2.5" rx="1" fill="#fdfdfc"/>
+</svg>
