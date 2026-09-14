@@ -1,5 +1,7 @@
 # Web page for Helsinki-Aalto formalized mathematics seminar
 
+ * https://kkytola.github.io/FormalizationSeminar/
+
 Weekly seminar's website, written in [Lean](https://lean-lang.org) using
 [Verso](https://verso.lean-lang.org/) and published to GitHub Pages.
 
