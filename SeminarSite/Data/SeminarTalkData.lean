@@ -30,10 +30,14 @@ Every talk in the seminar, past and future, in one array.
 -/
 def seminarTalks : Array SeminarTalk := #[
 
+  { speaker := { desc := "—" }
+    date := Date.fromYearMonthDay 2026 10 23
+    title := "— NO SEMINAR —" },
+
   { speaker := { desc := "Kristian Latvanen" }
     affiliation := "Aalto University",
-    date := Date.fromYearMonth 2026 10
-    title := "Formalizing the sharpness of percolation phase transition" },
+    date := Date.fromYearMonthDay 2026 10 16
+    title := none },
 
   { speaker := "Thanh-Long Tran",
     affiliation := "University of Helsinki",
@@ -48,7 +52,7 @@ def seminarTalks : Array SeminarTalk := #[
   { speaker := { desc := "Janne Junnila", link := some "https://junnila.me/"}
     affiliation := "University of Jyväskylä",
     date := Date.fromYearMonthDay 2026 9 25
-    title := "TBA" },
+    title := none },
 
   { speaker := "Talal Alrawajfeh",
     affiliation := "University of Helsinki",
