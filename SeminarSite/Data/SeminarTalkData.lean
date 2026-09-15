@@ -35,6 +35,16 @@ def seminarTalks : Array SeminarTalk := #[
     date := Date.fromYearMonth 2026 10
     title := "Formalizing the sharpness of percolation phase transition" },
 
+  { speaker := "Thanh-Long Tran",
+    affiliation := "University of Helsinki",
+    date := Date.fromYearMonthDay 2026 10 9
+    title := none },
+
+  { speaker := "Niklas Halonen",
+    affiliation := "University of Helsinki",
+    date := Date.fromYearMonthDay 2026 10 2
+    title := none },
+
   { speaker := { desc := "Janne Junnila", link := some "https://junnila.me/"}
     affiliation := "University of Jyväskylä",
     date := Date.fromYearMonthDay 2026 9 25
