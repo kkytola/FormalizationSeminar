@@ -35,27 +35,29 @@ def seminarTalks : Array SeminarTalk := #[
     title := "— NO SEMINAR —" },
 
   { speaker := { desc := "Kristian Latvanen" }
-    affiliation := "Aalto University",
+    affiliation := "Aalto University"
     date := Date.fromYearMonthDay 2026 10 16
     title := none },
 
-  { speaker := "Thanh-Long Tran",
-    affiliation := "University of Helsinki",
+  { speaker := "Thanh-Long Tran"
+    affiliation := "University of Helsinki"
     date := Date.fromYearMonthDay 2026 10 9
     title := none },
 
-  { speaker := "Niklas Halonen",
-    affiliation := "University of Helsinki",
+  { speaker := "Niklas Halonen"
+    affiliation := "University of Helsinki"
     date := Date.fromYearMonthDay 2026 10 2
     title := none },
 
   { speaker := { desc := "Janne Junnila", link := some "https://junnila.me/"}
-    affiliation := "University of Jyväskylä",
+    affiliation := "University of Jyväskylä"
     date := Date.fromYearMonthDay 2026 9 25
-    title := none },
+    title := "In search for practical autoformalization workflows for working mathematicians",
+    abstract := "I will present a personal account of my own autoformalization experiments in complex analysis and related areas. This will include a demo of Handwave, which is a tool intended to help in planning, building, organizing and presenting autoformalized Lean projects."
+    },
 
-  { speaker := "Talal Alrawajfeh",
-    affiliation := "University of Helsinki",
+  { speaker := "Talal Alrawajfeh"
+    affiliation := "University of Helsinki"
     date := Date.fromYearMonthDay 2026 9 11
     title := none },
 ]
