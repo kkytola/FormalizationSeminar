@@ -47,7 +47,9 @@ def seminarTalks : Array SeminarTalk := #[
   { speaker := "Niklas Halonen"
     affiliation := "University of Helsinki"
     date := Date.fromYearMonthDay 2026 10 2
-    title := none },
+    title := "Automated Grading in Lean Using Comparator"
+    abstract := r#"In my talk, I give an introduction to Comparator and briefly explain the principles and challenges behind it. I will also demonstrate my tool for automated grading of Lean exercises called "comparator-autograder"."#
+  },
 
   { speaker := { desc := "Janne Junnila", link := some "https://junnila.me/"}
     affiliation := "University of Jyväskylä"
