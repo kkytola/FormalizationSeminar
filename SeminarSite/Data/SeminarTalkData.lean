@@ -36,10 +36,10 @@ def seminarTalks : Array SeminarTalk := #[
 
   { speaker := { desc := "Kristian Latvanen" }
     affiliation := "Aalto University"
+    date := Date.fromYearMonthDay 2026 10 16
     title := "Formalizing percolation"
     abstract := r#"I will describe our current project on formalizing percolation theory, more specifically, sharpness of percolation phase transition. Due to advances in AI, the emphasis of the project has shifted somewhat, most recently due to a full LLM-generated formalization of the original goal by Anthropic. Especially, I will describe what has been learned in writing a Mathlib-quality version of the result and the usefulness of LLMs in it."#
-    date := Date.fromYearMonthDay 2026 10 16
-    title := none },
+    },
 
   { speaker := "Thanh-Long Tran"
     affiliation := "University of Helsinki"
