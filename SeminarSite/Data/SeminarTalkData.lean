@@ -44,7 +44,9 @@ def seminarTalks : Array SeminarTalk := #[
   { speaker := "Thanh-Long Tran"
     affiliation := "University of Helsinki"
     date := Date.fromYearMonthDay 2026 10 9
-    title := none },
+    title := "Lean-augmented LLM infrastructure for research"
+    abstract := r#"I will describe a multi-agent infrastructure I engineered for mathematical research, combining human-directed autonomous derivation with Lean-based verification and adversarial numerical tests. I will discuss how I directed this system to derive essentially the entirety of the mathematical results in one of my current research projects, while validating the derivation myself."#
+    },
 
   { speaker := "Niklas Halonen"
     affiliation := "University of Helsinki"
