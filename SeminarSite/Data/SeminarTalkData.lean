@@ -30,6 +30,15 @@ Every talk in the seminar, past and future, in one array.
 -/
 def seminarTalks : Array SeminarTalk := #[
 
+  { speaker := { desc := "Lauri Oksanen" }
+    affiliation := "University of Helsinki"
+    date := Date.fromYearMonthDay 2026 10 30
+    title := "Autoformalizing regularization theory"
+    abstract := r#"A machine-checked proof certifies a formal statement, and the human task is to confirm that each formal statement says what was intended. This is a substantial amount of work in the case of linear regularization theory that we autoformalized recently. I will describe the organization of our library and some tools that make this task manageable."#
+    },
+
+
+
   { speaker := { desc := "—" }
     date := Date.fromYearMonthDay 2026 10 23
     title := "— NO SEMINAR —" },
