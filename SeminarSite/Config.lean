@@ -27,7 +27,7 @@ structure SeminarConfig where
   e.g. "Fridays at 13:15-14:00", or "every second Tuesday at 10:15".
   -/
   meetingTime : String
-  /-- The room, e.g. "room U4062". -/
+  /-- The room, e.g. "room U3039". -/
   meetingRoom : String
   /--
   The building the room is in, e.g. "main building of University of Helsinki".
@@ -53,7 +53,7 @@ def seminarConfig : SeminarConfig where
   shortName := "Formalization Seminar"
   tagline := "A joint seminar of University of Helsinki and Aalto University"
   meetingTime := "Fridays at 13:15–14:00"
-  meetingRoom := "room U4062"
+  meetingRoom := "room U3039"
   meetingBuilding := some "main building of University of Helsinki"
   meetingAddress := some "Fabianinkatu 33"
   -- `some "someone@example.org"` puts a mailto link in the footer.

@@ -162,13 +162,13 @@ and 404 once published.
 `Config.lean` are assembled into one phrase by the `{timeAndPlace}[]` role, so a change of room is
 one edit rather than a hunt through the pages:
 
-> The seminar meets **Fridays at 13:15–14:00** in **room U4062** of the **main building of
+> The seminar meets **Fridays at 13:15–14:00** in **room U3039** of the **main building of
 > University of Helsinki** (Fabianinkatu 33).
 
 The role emits only the phrase, from the time up to the closing bracket — each page writes its own
 sentence around it. `meetingTime` should read naturally after "the seminar meets". The building and
 the address are optional and each takes its connecting words with it, so setting both to `none`
-gives "… **Fridays at 13:15–14:00** in **room U4062**." with no dangling "of the" or empty
+gives "… **Fridays at 13:15–14:00** in **room U3039**." with no dangling "of the" or empty
 brackets.
 
 **A new page** needs three things: a file under `SeminarSite/Pages/`, an `import` in

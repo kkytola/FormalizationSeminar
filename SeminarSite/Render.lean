@@ -48,7 +48,7 @@ namespace SeminarSite
 /--
 The seminar's regular slot, as an inline element:
 
-> *Fridays at 13:15–14:00* in *room U4062* of the *main building of University of Helsinki*
+> *Fridays at 13:15–14:00* in *room U3039* of the *main building of University of Helsinki*
 > (Fabianinkatu 33)
 
 The three named parts are bold, as they were when the phrase was written out by hand on each page.
