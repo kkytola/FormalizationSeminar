@@ -30,6 +30,11 @@ Every talk in the seminar, past and future, in one array.
 -/
 def seminarTalks : Array SeminarTalk := #[
 
+  { speaker := { desc := "Kalle Kytölä" }
+    date := Date.fromYearMonthDay 2026 11 20
+    title := "Inspecting a few formalized mathematical results together",
+    abstract := r#"Many recent mathematical results, especially AI-authored, have been accompanied by "Lean formalizations". How should one begin to examine them? The comparator setup cleanly separates statements (ideally concise and self-contained) from their proofs (sometimes millions of lines long). In this session, we look into a few real statements and ask: how can one gain trust in the faithfulness of formalizations?"# },
+
   { speaker := { desc := "—" }
     date := Date.fromYearMonthDay 2026 11 13
     title := "— NO SEMINAR —" },
