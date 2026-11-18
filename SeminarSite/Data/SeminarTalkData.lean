@@ -30,6 +30,12 @@ Every talk in the seminar, past and future, in one array.
 -/
 def seminarTalks : Array SeminarTalk := #[
 
+  { speaker := { desc := "Jan von Plato" }
+    date := Date.fromYearMonthDay 2026 11 27
+    title := "The challenges of AI in academic research: a case study in understanding Gödel's enigmatic shorthand notes",
+    abstract := r#"Famous logician Kurt Gödel wrote tens of thousands of pages of research results in a forgotten shorthand. Its successful transcription in human hands has led to the problem of understanding what is accomplished in it. Very recent work with AI assistants has brought a complete revolution here. These experiences are described, together with more general concerns about the effect of use of AI assistants in research, developments that will inevitably lead to a radical reassessment of the nature and worth of academic research."#
+    },
+
   { speaker := { desc := "Kalle Kytölä" }
     date := Date.fromYearMonthDay 2026 11 20
     title := "Inspecting a few formalized mathematical results together",
