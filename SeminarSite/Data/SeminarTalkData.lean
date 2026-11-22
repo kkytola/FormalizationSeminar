@@ -74,7 +74,7 @@ def seminarTalks : Array SeminarTalk := #[
     abstract := r#"I will describe a multi-agent infrastructure I engineered for mathematical research, combining human-directed autonomous derivation with Lean-based verification and adversarial numerical tests. I will discuss how I directed this system to derive essentially the entirety of the mathematical results in one of my current research projects, while validating the derivation myself."#
     },
 
-  { speaker := "Niklas Halonen"
+  { speaker := { desc := "Niklas Halonen", link := some "https://codeberg.org/xhalo32/lean-seminar/raw/commit/c9e9410b521b47dacca2fbcfe4931009cac41218/automated-grading/slides-2026-10-02.pdf" }
     affiliation := "University of Helsinki"
     date := Date.fromYearMonthDay 2026 10 2
     title := "Automated Grading in Lean Using Comparator"
