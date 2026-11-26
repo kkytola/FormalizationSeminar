@@ -30,6 +30,12 @@ Every talk in the seminar, past and future, in one array.
 -/
 def seminarTalks : Array SeminarTalk := #[
 
+  { speaker := { desc := "Alesya Raevskaya" }
+    date := Date.fromYearMonthDay 2026 12 04
+    --title := "",
+    --abstract := r#""#
+    },
+
   { speaker := { desc := "Jan von Plato" }
     date := Date.fromYearMonthDay 2026 11 27
     title := "The challenges of AI in academic research: a case study in understanding Gödel's enigmatic shorthand notes",
